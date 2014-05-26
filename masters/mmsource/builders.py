@@ -25,11 +25,11 @@ def Factory(slave, branch):
     os = Slaves[slave]['os']
     paths = PathBuilder(os)
 
-    bootstrap_argv = ['perl', paths.join('tools', 'buildbot', 'bootstrap.pl')]
-    build_argv = ['perl', paths.join('tools', 'buildbot', 'startbuild.pl')]
+    bootstrap_argv = ['perl', paths.join('support', 'buildbot', 'bootstrap.pl')]
+    build_argv = ['perl', paths.join('support', 'buildbot', 'startbuild.pl')]
     upload_argv = [
         'perl',
-        paths.join('tools', 'buildbot', 'package.pl'),
+        paths.join('support', 'buildbot', 'package.pl'),
         paths.join('..', '..', 'smdrop_info'),
     ]
 
@@ -63,7 +63,7 @@ def Factory(slave, branch):
         descriptionDone = 'uploaded'
     ))
     if os == 'windows':
-        symstore_argv = ['perl', paths.join('tools', 'buildbot', 'symstore.pl')]
+        symstore_argv = ['perl', paths.join('support', 'buildbot', 'symstore.pl')]
         f.addStep(ShellCommand(
             name            = "symstore",
             command         = symstore_argv,
