@@ -14,7 +14,7 @@ def WebStatus(cfg):
     )
 
     master_admins = cfg.get('master-admins')
-    slave_admins = cfg.get('slave-admins')
+    slave_admins = master_admins + cfg.get('slave-admins')
 
     auth = amauthz.AMAuthz(
         auth = ldap,
