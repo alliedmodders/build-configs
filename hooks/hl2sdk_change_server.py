@@ -121,13 +121,15 @@ def main():
     parser.add_argument('-p', '--port', dest='port', type=int, default=10500,
                         help='Port number')
     parser.add_argument('-s', '--secret', dest='secret', type=str, default=None,
-                        help='Shared secret')
+                        help='File containing secret key')
     parser.add_argument('--logs', dest='logs', type=str, default=None,
                         help='Path to store log files.')
     args = parser.parse_args()
     if not args.secret:
         sys.stderr.write('Secret is required.\n')
         sys.exit(1)
+    with open(args.secret, 'r') as fp:
+        args.secret = fp.readline().strip()
 
     start(args)
 
