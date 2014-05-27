@@ -26,6 +26,40 @@ class RequestHandler(base_http.BaseHTTPRequestHandler):
         base_http.BaseHTTPRequestHandler.setup(self)
         self.request.settimeout(TIMEOUT)
 
+    def log_request(self, code, size):
+        with open(os.path.join(self.options.logs, 'access.log'), 'a') as fp:
+            client, _ = self.client_address
+            fp.write('{0} - - [{1}] "{2} {3} {4}" {5} -\n'.format(
+                client,
+                self.log_date_time_string(),
+                self.command,
+                self.path,
+                self.request_version,
+                code
+            ))
+
+    def log_line(self, fp, message):
+        client, _ = self.client_address
+        fp.write('{0} - - [{1}] "{2} {3} {4}" stdout -\n'.format(
+            host,
+            self.log_date_time_string(),
+            self.command,
+            self.path,
+            self.request_version
+        ))
+        fp.write(message)
+        fp.write('\n')
+
+    def log_error(self, format, *args):
+        output = format % args
+        with open(os.path.join(self.options.logs, 'error.log'), 'a') as fp:
+            self.log_line(fp, output)
+
+    def log_message(self, format, *args):
+        output = format % args
+        with open(os.path.join(self.options.logs, 'access.log'), 'a') as fp:
+            self.log_line(fp, output)
+
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         algorithm, digest = self.headers['X-Hub-Signature'].split('=')
@@ -82,6 +116,8 @@ def main():
                         help='Port number')
     parser.add_argument('-s', '--secret', dest='secret', type=str, default=None,
                         help='Shared secret')
+    parser.add_argument('--logs', dest='logs', type=str, default=None,
+                        help='Path to store log files.')
     args = parser.parse_args()
     if not args.secret:
         sys.stderr.write('Secret is required.\n')
