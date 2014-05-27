@@ -26,7 +26,7 @@ class RequestHandler(base_http.BaseHTTPRequestHandler):
         base_http.BaseHTTPRequestHandler.setup(self)
         self.request.settimeout(TIMEOUT)
 
-    def log_request(self, code, size):
+    def log_request(self, code = '-', size = '-'):
         with open(os.path.join(self.options.logs, 'access.log'), 'a') as fp:
             client, _ = self.client_address
             fp.write('{0} - - [{1}] "{2} {3} {4}" {5} -\n'.format(
@@ -41,7 +41,7 @@ class RequestHandler(base_http.BaseHTTPRequestHandler):
     def log_line(self, fp, message):
         client, _ = self.client_address
         fp.write('{0} - - [{1}] "{2} {3} {4}" stdout -\n'.format(
-            host,
+            client,
             self.log_date_time_string(),
             self.command,
             self.path,
@@ -60,41 +60,47 @@ class RequestHandler(base_http.BaseHTTPRequestHandler):
         with open(os.path.join(self.options.logs, 'access.log'), 'a') as fp:
             self.log_line(fp, output)
 
+    def send_empty_response(self, code):
+        self.send_response(code)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         algorithm, digest = self.headers['X-Hub-Signature'].split('=')
         if algorithm not in hashlib.algorithms:
-            return self.send_response(403)
+            return self.send_empty_response(403)
 
         content = self.rfile.read(content_length)
         check = hmac.new(self.options.secret, content, getattr(hashlib, algorithm))
         if digest != check.hexdigest():
-            return self.send_response(403)
+            return self.send_empty_response(403)
 
         obj = json.loads(content)
 
         try:
             _, _, branch = obj['ref'].split('/')
         except:
-            return self.send_response(200)
+            return self.send_empty_response(200)
 
         if not re.match('^[A-Za-z0-9_-]+$', branch):
-            return self.send_response(400)
+            return self.send_empty_response(400)
 
         if obj['repository']['name'] == 'hl2sdk':
             cwd = os.path.join(REPO_ROOT, 'hl2sdk-{0}'.format(branch))
         elif obj['repository']['name'] == 'hlsdk':
             if branch != 'master':
-                return self.send_response(200)
+                return self.send_empty_response(200)
             cwd = os.path.join(REPO_ROOT, 'hlsdk')
 
         if not os.path.isdir(cwd):
-            return self.send_response(200)
+            print(cwd)
+            return self.send_empty_response(200)
 
-        self.send_response(202)
+        self.send_empty_response(202)
 
         result = subprocess.check_output(
-            command = ['git', 'pull'],
+            args = ['git', 'pull'],
             cwd = cwd
         )
 
@@ -121,6 +127,7 @@ def main():
     args = parser.parse_args()
     if not args.secret:
         sys.stderr.write('Secret is required.\n')
+        sys.exit(1)
 
     start(args)
 
