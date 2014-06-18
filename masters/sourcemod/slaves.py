@@ -15,7 +15,7 @@ Slaves = {
         'flags': {
             'max_builds': 1,
         },
-        'versions': ['1.6'],
+        'versions': ['1.6', '1.7'],
     },
     'osx10.9': {
         'os': 'mac',
