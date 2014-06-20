@@ -33,9 +33,6 @@ def SMFactory(slave, branch):
         paths.join('..', '..', 'smdrop_info'),
     ]
 
-    if slave == 'win32-msvc12':
-        upload_argv.append("msvc12")
-
     if 'compiler' in Slaves[slave]:
         bootstrap_argv.append(Slaves[slave]['compiler'])
         build_argv.append(Slaves[slave]['compiler'])
