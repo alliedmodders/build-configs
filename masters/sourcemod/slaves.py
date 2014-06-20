@@ -6,7 +6,7 @@ Slaves = {
     },
     'win32-msvc12': {
         'os': 'windows',
-		'display': 'windows',
+        'display': 'windows',
         'flags': {
             'max_builds': 1,
         },
