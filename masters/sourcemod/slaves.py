@@ -4,18 +4,12 @@ Slaves = {
         'os': 'linux',
         'compiler': 'clang',
     },
-    'win32': {
-        'os': 'windows',
-        'flags': {
-            'max_builds': 1,
-        },
-    },
     'win32-msvc12': {
         'os': 'windows',
+        'display': 'windows',
         'flags': {
             'max_builds': 1,
         },
-        'versions': ['1.6', '1.7'],
     },
     'osx10.9': {
         'os': 'mac',

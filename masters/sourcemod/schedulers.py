@@ -7,11 +7,9 @@ from buildbot.changes import filter
 def BuildersForVersion(version):
     builders = [
         'linux-' + version,
-        'win32-' + version,
+        'win32-msvc12-' + version,
         'mac-' + version,
     ]
-    if version != '1.5':
-        builders.append("win32-msvc12-" + version)
     return builders
 
 class SMScheduler(SingleBranchScheduler):
