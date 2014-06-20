@@ -7,7 +7,7 @@ from buildbot.changes import filter
 def BuildersForVersion(version):
     builders = [
         'linux-' + version,
-        'win32-msvc12-' + version,
+        'windows-' + version,
         'mac-' + version,
     ]
     return builders
