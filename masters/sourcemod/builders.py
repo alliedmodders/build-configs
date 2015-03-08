@@ -42,6 +42,7 @@ def SMFactory(slave, branch):
         repourl = 'https://github.com/alliedmodders/sourcemod',
         branch = branch,
         mode = 'incremental',
+        submodules = True
     ))
     f.addStep(ShellCommand(
         name            = "bootstrap",
