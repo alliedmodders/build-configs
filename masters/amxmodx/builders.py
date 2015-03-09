@@ -42,6 +42,7 @@ def Factory(slave, branch):
         repourl = 'https://github.com/alliedmodders/amxmodx.git',
         branch = branch,
         mode = 'incremental',
+        submodules = True
     ))
     f.addStep(ShellCommand(
         name            = "bootstrap",
