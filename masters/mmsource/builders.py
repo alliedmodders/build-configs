@@ -5,7 +5,7 @@ from buildbot import locks
 from buildbot.config import BuilderConfig
 from buildbot.process import factory
 from buildbot.steps.source.git import Git
-from am.sourcemod.slaves import Slaves
+from am.mmsource.slaves import Slaves
 
 pdb_lock = locks.MasterLock("symbolstore")
 
