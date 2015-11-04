@@ -32,7 +32,7 @@ def WebStatus(cfg):
     web_conf = cfg.get('web')
     web_args = {}
     if 'github' in web_conf:
-        web_args['change_hook_dialects'] = { 'github': True }
+        web_args['change_hook_dialects'] = { 'github': {} }
         web_args['change_hook_auth'] = ['file:{0}'.format(web_conf['github'])]
 
     return html.WebStatus(
