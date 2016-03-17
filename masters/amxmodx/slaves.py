@@ -2,7 +2,7 @@
 Slaves = {
     'linux': {
         'os': 'linux',
-        'compiler': 'clang',
+        'compiler': 'clang-3.8',
     },
     'win32': {
         'os': 'windows',
