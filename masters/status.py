@@ -1,6 +1,7 @@
 # vim: set ts=8 sw=4 sts=4 tw=99 et ft=python :
 from am import ldapauth, amauthz
 from buildbot.status import html
+from buildbot.status import words
 from buildbot.status import mail
 from buildbot.status.builder import SUCCESS, FAILURE
 
@@ -62,3 +63,19 @@ def MailStatus(cfg, project, **kwargs):
     notifier.messageFormatter = subject_injector
 
     return notifier
+
+def IRCStatus(cfg):
+    irc_conf = cfg.get('irc')
+
+    network = irc_conf['network']
+    channel = irc_conf['channel']
+    nickname = irc_conf['nickname']
+
+    irc = words.IRC(network, nickname, channels = [{'channel': channel}], notify_events = {
+        'success': 1,
+        'failure': 1,
+        'exception': 1,
+        'successToFailure': 1,
+        'failureToSuccess': 1
+    })
+    return irc
