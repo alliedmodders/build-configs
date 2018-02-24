@@ -47,6 +47,8 @@ def MailStatus(cfg, project, **kwargs):
     notifier = mail.MailNotifier(
         fromaddr = mail_conf['from'],
         extraRecipients = mail_conf['to'],
+        relayhost = "192.168.10.30",
+        smtpPort = "2050",
         mode = ['failing', 'change'],
         **kwargs
     )
