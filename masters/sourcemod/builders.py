@@ -34,8 +34,8 @@ def SMFactory(slave, branch):
     ]
 
     if 'compiler' in Slaves[slave]:
-        bootstrap_argv.append(Slaves[slave]['compiler'])
-        build_argv.append(Slaves[slave]['compiler'])
+        bootstrap_argv.extend([Slaves[slave]['cc'], Slaves[slave]['cxx']])
+        build_argv.extend([Slaves[slave]['cc'], Slaves[slave]['cxx']])
 
     f = factory.BuildFactory()
     f.addStep(Git(
