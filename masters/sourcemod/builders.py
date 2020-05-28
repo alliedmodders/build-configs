@@ -33,7 +33,7 @@ def SMFactory(slave, branch):
         paths.join('..', '..', 'smdrop_info'),
     ]
 
-    if 'compiler' in Slaves[slave]:
+    if all(member in Slaves[slave] for member in ['cc', 'cxx']):
         bootstrap_argv.extend([Slaves[slave]['cc'], Slaves[slave]['cxx']])
         build_argv.extend([Slaves[slave]['cc'], Slaves[slave]['cxx']])
 
