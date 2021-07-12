@@ -51,6 +51,7 @@ class LDAPAuth(auth.AuthBase):
             self.search_conn.unbind()
         # Connection used to locate the users in the LDAP DB.
         self.search_conn = ldap.initialize(self.host)
+        self.search_conn.set_option(ldap.OPT_PROTOCOL_VERSION, ldap.VERSION3)
         self.search_conn.start_tls_s()
         self.search_conn.bind_s(self.binddn, self.passwd,
                                 ldap.AUTH_SIMPLE)
