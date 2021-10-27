@@ -2,8 +2,8 @@
 Slaves = {
     'linux': {
         'os': 'linux',
-        'cc': 'clang-3.8',
-        'cxx': 'clang++-3.8',
+        'cc': 'clang-8',
+        'cxx': 'clang++-8',
     },
     'win32-msvc12': {
         'os': 'windows',
