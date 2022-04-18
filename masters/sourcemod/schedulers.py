@@ -3,13 +3,19 @@ from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers.forcesched import *
 from buildbot.schedulers import triggerable
 from buildbot.changes import filter
+import packaging.version
+
+Version1_11 = packaging.version.parse('1.11')
 
 def BuildersForVersion(version):
     builders = [
-        'linux-' + version,
-        'windows-' + version,
-        'mac-' + version,
+        'windows-{}'.format(version),
+        'mac-{}'.format(version),
     ]
+    if version >= Version1_11:
+        builders += ['debian9-{}'.format(version)]
+    else:
+        builders += ['debian8-{}'.format(version)]
     return builders
 
 class SMScheduler(SingleBranchScheduler):
