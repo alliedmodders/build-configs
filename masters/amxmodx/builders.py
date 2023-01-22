@@ -27,11 +27,15 @@ def Factory(slave, branch):
 
     bootstrap_argv = ['perl', paths.join('support', 'buildbot', 'bootstrap.pl')]
     build_argv = ['perl', paths.join('support', 'buildbot', 'startbuild.pl')]
-    upload_argv = [
-        'perl',
-        paths.join('support', 'buildbot', 'package.pl'),
-        paths.join('..', '..', 'amxxdrop_info'),
-    ]
+    if branch == '1.9-dev':
+        upload_argv = [
+            'perl',
+            paths.join('support', 'buildbot', 'package.pl'),
+            paths.join('..', '..', 'amxxdrop_info'),
+        ]
+    else:
+        upload_argv = ['python3', paths.join('support', 'buildbot', 'package.py'),
+                       paths.join('..', '..', 'amxxdrop_info')]
 
     if 'compiler' in Slaves[slave]:
         bootstrap_argv.append(Slaves[slave]['compiler'])
