@@ -13,6 +13,10 @@ Slaves = {
     'macos-10.14': {
         'os': 'mac',
         'display': 'mac',
+        'versions' : [
+            '1.11',
+            '1.12',
+        ]
     },
 }
 
