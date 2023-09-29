@@ -1,21 +1,20 @@
 # vim: set ts=4 sw=4 sts=4 tw=99 et ft=python :
+import packaging.version
+
+Version2_0 = packaging.version.parse('2.0')
+
 Slaves = {
     'linux': {
         'os': 'linux',
         'compiler': 'clang-3.8',
-        'versions' : [
-            '1.11',
-            '1.12',
-        ]
+        'matcher': lambda version: version < Version2_0,
     },
-    'linux-2.0': {
+    'linux-2.x': {
         'os': 'linux',
         'compiler': 'clang-8',
-        'versions' : [
-            '2.0',
-        ]
+        'matcher': lambda version: version >= Version2_0,
     },
-    'win32': {
+    'windows': {
         'os': 'windows',
         'flags': {
             'max_builds': 1,
@@ -24,10 +23,7 @@ Slaves = {
     'macos-10.14': {
         'os': 'mac',
         'display': 'mac',
-        'versions' : [
-            '1.11',
-            '1.12',
-        ]
+        'matcher': lambda version: version < Version2_0,
     },
 }
 

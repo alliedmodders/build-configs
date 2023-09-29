@@ -3,13 +3,21 @@ from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers import forcesched
 from buildbot.schedulers import triggerable
 from buildbot.changes import filter
+import packaging.version
+
+Version2_0 = packaging.version.parse('2.0')
 
 def BuildersForVersion(version):
     builders = [
-        'linux-' + version,
-        'win32-' + version,
-        'mac-' + version,
+        'windows-{}'.format(version),
     ]
+    if version < Version2_0:
+        builders += [
+            'linux-{}'.format(version),
+            'mac-{}'.format(version),
+        ]
+    else:
+        builders += ['linux-2.x-{}'.format(version)]
     return builders
 
 class Scheduler(SingleBranchScheduler):
