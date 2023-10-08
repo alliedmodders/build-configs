@@ -8,7 +8,6 @@ def BuildersForVersion(version):
     builders = [
         'linux-' + version,
         'win32-' + version,
-        'mac-' + version,
     ]
     return builders
 

@@ -14,7 +14,6 @@ def BuildersForVersion(version):
     if version < Version2_0:
         builders += [
             'linux-{}'.format(version),
-            'mac-{}'.format(version),
         ]
     else:
         builders += ['linux-2.x-{}'.format(version)]

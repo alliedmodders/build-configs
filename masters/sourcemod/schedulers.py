@@ -10,7 +10,6 @@ Version1_11 = packaging.version.parse('1.11')
 def BuildersForVersion(version):
     builders = [
         'windows-{}'.format(version),
-        'mac-{}'.format(version),
     ]
     if version >= Version1_11:
         builders += ['debian9-{}'.format(version)]
