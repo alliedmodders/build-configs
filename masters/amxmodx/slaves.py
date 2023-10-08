@@ -10,10 +10,6 @@ Slaves = {
             'max_builds': 1,
         },
     },
-    'macos-10.14': {
-        'os': 'mac',
-        'display': 'mac',
-    },
 }
 
 

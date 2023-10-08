@@ -5,12 +5,6 @@ Version1_10 = packaging.version.parse('1.10')
 Version1_11 = packaging.version.parse('1.11')
 
 Slaves = {
-#    'debian8': {
-#        'os': 'linux',
-#        'cc': 'clang-8',
-#        'cxx': 'clang++-8',
-#        'matcher': lambda version: version <= Version1_10,
-#    },
     'debian9': {
         'os': 'linux',
         'cc': 'clang-11',
@@ -23,9 +17,5 @@ Slaves = {
         'flags': {
             'max_builds': 1,
         },
-    },
-    'macos-10.14': {
-        'os': 'mac',
-        'display': 'mac',
     },
 }
