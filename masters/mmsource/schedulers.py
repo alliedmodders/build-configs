@@ -5,18 +5,18 @@ from buildbot.schedulers import triggerable
 from buildbot.changes import filter
 import packaging.version
 
-Version2_0 = packaging.version.parse('2.0')
+Version1_12 = packaging.version.parse('1.12')
 
 def BuildersForVersion(version):
     builders = [
         'windows-{}'.format(version),
     ]
-    if version < Version2_0:
+    if version < Version1_12:
         builders += [
-            'linux-{}'.format(version),
+            'debian8-{}'.format(version),
         ]
     else:
-        builders += ['linux-2.x-{}'.format(version)]
+        builders += ['debian11-{}'.format(version)]
     return builders
 
 class Scheduler(SingleBranchScheduler):

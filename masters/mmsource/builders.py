@@ -25,17 +25,29 @@ def Factory(slave, branch):
     os = Slaves[slave]['os']
     paths = PathBuilder(os)
 
-    bootstrap_argv = ['perl', paths.join('support', 'buildbot', 'bootstrap.pl')]
+    if os == 'windows':
+        python_cmd = 'C:\\Python38\\Python.exe'
+        hl2sdk_root = 'H:\\'
+    elif os == 'linux':
+        python_cmd = 'python3'
+        hl2sdk_root = '/hgshare'
+    elif os == 'mac':
+        python_cmd = 'python3'
+        hl2sdk_root = '/Volumes/hgshare'
+
+    bootstrap_argv = [
+        python_cmd,
+        paths.join('support', 'buildbot', 'bootstrap.py'),
+        '--config', slave,
+        '--hl2sdk-root', hl2sdk_root,
+        '--python-cmd', python_cmd,
+    ]
     build_argv = ['perl', paths.join('support', 'buildbot', 'startbuild.pl')]
     upload_argv = [
         'perl',
         paths.join('support', 'buildbot', 'package.pl'),
         paths.join('..', '..', 'smdrop_info'),
     ]
-
-    if 'compiler' in Slaves[slave]:
-        bootstrap_argv.append(Slaves[slave]['compiler'])
-        build_argv.append(Slaves[slave]['compiler'])
 
     f = factory.BuildFactory()
     f.addStep(Git(
