@@ -7,9 +7,11 @@ Version1_11 = packaging.version.parse('1.11')
 Slaves = {
     'debian9': {
         'os': 'linux',
-        'cc': 'clang-11',
-        'cxx': 'clang++-11',
-        'matcher': lambda version: version >= Version1_11,
+        'matcher': lambda version: version <= Version1_11,
+    },
+    'debian11': {
+        'os': 'linux',
+        'matcher': lambda version: version > Version1_11,
     },
     'win32-msvc12': {
         'os': 'windows',

@@ -25,17 +25,33 @@ def SMFactory(slave, branch):
     os = Slaves[slave]['os']
     paths = PathBuilder(os)
 
-    bootstrap_argv = ['perl', paths.join('tools', 'buildbot', 'bootstrap.pl')]
+    if os == 'windows':
+        python_cmd = 'C:\\Python38\\Python.exe'
+        hl2sdk_root = 'H:\\'
+        common = 'D:\\Scripts\\common'
+    elif os == 'linux':
+        python_cmd = 'python3'
+        hl2sdk_root = '/hgshare'
+        common = '/home/builds/common'
+    elif os == 'mac':
+        python_cmd = 'python3'
+        hl2sdk_root = '/Volumes/hgshare'
+        common = '/Users/builds/slaves/common'
+
+    bootstrap_argv = [
+        python_cmd,
+        paths.join('tools', 'buildbot', 'bootstrap.py'),
+        '--config', slave,
+        '--hl2sdk-root', hl2sdk_root,
+        '--python-cmd', python_cmd,
+        '--mms-path', paths.join(common, 'mmsource-master'),
+    ]
     build_argv = ['perl', paths.join('tools', 'buildbot', 'startbuild.pl')]
     upload_argv = [
         'perl',
         paths.join('tools', 'buildbot', 'package.pl'),
         paths.join('..', '..', 'smdrop_info'),
     ]
-
-    if all(member in Slaves[slave] for member in ['cc', 'cxx']):
-        bootstrap_argv.extend([Slaves[slave]['cc'], Slaves[slave]['cxx']])
-        build_argv.extend([Slaves[slave]['cc'], Slaves[slave]['cxx']])
 
     f = factory.BuildFactory()
     f.addStep(Git(

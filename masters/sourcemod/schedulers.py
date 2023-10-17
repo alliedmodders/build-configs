@@ -11,10 +11,10 @@ def BuildersForVersion(version):
     builders = [
         'windows-{}'.format(version),
     ]
-    if version >= Version1_11:
-        builders += ['debian9-{}'.format(version)]
+    if version > Version1_11:
+        builders += ['debian11-{}'.format(version)]
     else:
-        builders += ['debian8-{}'.format(version)]
+        builders += ['debian9-{}'.format(version)]
     return builders
 
 class SMScheduler(SingleBranchScheduler):
