@@ -9,7 +9,7 @@ from am.sourcemod.slaves import Slaves
 
 pdb_lock = locks.MasterLock("symbolstore")
 
-def CreateBuilder(slave, version, branch):
+def CreateBuilder(slave, version, branch, mms_dir):
     name = slave
     if 'display' in Slaves[slave]:
         name = Slaves[slave]['display']
@@ -18,7 +18,7 @@ def CreateBuilder(slave, version, branch):
         name = '{0}-{1}'.format(name, version),
         builddir = '{0}-{1}'.format(name, version),
         slavename = slave,
-        factory = SMFactory(slave, branch)
+        factory = SMFactory(slave, branch, mms_dir)
     )
 
 def SMFactory(slave, branch, mms_dir):
