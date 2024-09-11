@@ -21,7 +21,7 @@ def CreateBuilder(slave, version, branch):
         factory = SMFactory(slave, branch)
     )
 
-def SMFactory(slave, branch):
+def SMFactory(slave, branch, mms_dir):
     os = Slaves[slave]['os']
     paths = PathBuilder(os)
 
@@ -44,7 +44,7 @@ def SMFactory(slave, branch):
         '--config', slave,
         '--hl2sdk-root', hl2sdk_root,
         '--python-cmd', python_cmd,
-        '--mms-path', paths.join(common, 'mmsource-master'),
+        '--mms-path', paths.join(common, mms_dir),
     ]
     build_argv = ['perl', paths.join('tools', 'buildbot', 'startbuild.pl')]
     upload_argv = [
