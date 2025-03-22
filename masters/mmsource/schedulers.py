@@ -1,22 +1,14 @@
 # vim: set ts=8 sw=4 sts=4 tw=99 et ft=python :
 from buildbot.schedulers.basic import SingleBranchScheduler
 from buildbot.schedulers import forcesched
-from buildbot.schedulers import triggerable
 from buildbot.changes import filter
 import packaging.version
-
-Version1_12 = packaging.version.parse('1.12')
 
 def BuildersForVersion(version):
     builders = [
         'windows-{}'.format(version),
+        'debian11-{}'.format(version),
     ]
-    if version < Version1_12:
-        builders += [
-            'debian8-{}'.format(version),
-        ]
-    else:
-        builders += ['debian11-{}'.format(version)]
     return builders
 
 class Scheduler(SingleBranchScheduler):
